@@ -39,6 +39,13 @@
                                                 Editar
                                             </Link>
                                         </td>
+                                        <td>
+                                            <button 
+                                                @click.prevent="destroy(note.id)"
+                                                >
+                                                Eliminar
+                                            </button>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
@@ -63,6 +70,13 @@
         },
         props: {
             notes: Array,
+        },
+        methods: {
+            destroy (id){
+                if(confirm('¿Estás seguro de eliminar esta nota?')){
+                    this.$inertia.delete(this.route('notes.destroy', id))
+                }
+            }
         }
     })
 </script>

@@ -45,6 +45,15 @@
                                         Volver
                                     </Link>
                                 </form>
+
+                                <hr class="my-6">
+
+                                <a 
+                                    href="#" 
+                                    @click.prevent="destroy"
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">
+                                    Eliminar nota
+                                </a>
                             </div>
                         </div>
 
@@ -79,6 +88,11 @@
         methods: {
             submit (){
                 this.$inertia.put(this.route('notes.update', this.note.id), this.form)
+            },
+            destroy (){
+                if(confirm('¿Estás seguro de eliminar esta nota?')){
+                    this.$inertia.delete(this.route('notes.destroy', this.note.id))
+                }
             }
         }
     })
