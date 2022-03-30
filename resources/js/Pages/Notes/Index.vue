@@ -18,11 +18,18 @@
                         </div>
                         <div class="md:col-span-2 mt-5 md:mt-0">
                             <div class="shadow bg-white md:rounded-md p-4">
-                                <Link 
-                                    :href="route('notes.create')"
-                                    class="block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-5">
-                                    Crear
-                                </Link>
+                                <div class="flex justify-between">
+
+                                    <input type="text" class="form-input rounded-md shadow-sm" placeholder="Buscar..." v-model="q">
+
+                                    <Link 
+                                        :href="route('notes.create')"
+                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-5">
+                                        Crear
+                                    </Link>
+                                </div>
+
+                                <hr class="my-6">
 
                                 <table>
                                     <tr v-for="note in notes" :key="note.id">
@@ -71,11 +78,22 @@
         props: {
             notes: Array,
         },
+        data () {
+            return {
+                q: ''
+            }
+        },
         methods: {
             destroy (id){
                 if(confirm('¿Estás seguro de eliminar esta nota?')){
                     this.$inertia.delete(this.route('notes.destroy', id))
                 }
+            }
+        },
+        watch: {
+            q: function(value){
+                this.$inertia.get(this.route('notes.index', { q: value }), {}, {preserveState: true})
+                //this.$inertia.replace(this.route('notes.index', { q: value })) //funciona va a quedar obsoleto 
             }
         }
     })
